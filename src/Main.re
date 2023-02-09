@@ -22,7 +22,7 @@ let main = (args, options) => {
     |> then_(GitLab.fetchProjectsInGroups(getOption("archive"), getOption("recursive")))
     |> then_(GitLab.searchInProjects(criterias))
     |> then_(results =>
-         resolve(Print.searchResults(criterias.term, results))
+         resolve(Print.searchResults(criterias.term, results, getOption("recursive")))
        )
     |> catch(err => resolve(Js.log2("Something exploded!", err)))
     |> ignore
