@@ -27,6 +27,7 @@ let searchResults =
     (
       term: string,
       results: array((GitLab.project, array(GitLab.searchResult))),
+      isRecursive: option(string),
     ) => {
   Array.forEach(
     results,
@@ -42,8 +43,12 @@ let searchResults =
         );
 
       let archivedInfo = project.archived ? bold(red(" (archived)")) : "";
+      let displayName = switch (isRecursive) {
+        | None => project.name;
+        | _ => project.name_with_namespace;
+      };
 
-      Js.log(bold(green(project.name ++ archivedInfo ++ ":")));
+      Js.log(bold(green(displayName ++ archivedInfo ++ ":")));
       Js.log(formattedResults);
     },
   );
